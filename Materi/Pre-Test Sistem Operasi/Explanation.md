@@ -1,5 +1,7 @@
 # Explanation Pre-Test Sistem Operasi
 
+!Caution (Pilihan Jawaban Belum Tentu Benar)
+
 ## Soal 1
 ![Soal 1](./Soal%201.png)
 
