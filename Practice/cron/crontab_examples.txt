@@ -1,0 +1,27 @@
+# Cron format:
+# * * * * * command_to_run
+# - - - - -
+# | | | | |
+# | | | | +---- day of week (0-7, Sunday is 0 or 7)
+# | | | +------ month (1-12)
+# | | +-------- day of month (1-31)
+# | +---------- hour (0-23)
+# +------------ minute (0-59)
+
+# Run every minute
+* * * * * /home/user/scripts/backup_logs.sh
+
+# Run every day at 07:00
+0 7 * * * /home/user/scripts/backup_logs.sh
+
+# Run every Monday at 08:30
+30 8 * * 1 /home/user/scripts/backup_logs.sh
+
+# Run on the first day of every month at midnight
+0 0 1 * * /home/user/scripts/backup_logs.sh
+
+# View current crontab
+crontab -l
+
+# Edit crontab
+crontab -e

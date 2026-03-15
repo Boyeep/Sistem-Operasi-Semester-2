@@ -1,0 +1,5 @@
+# Every day at 06:00
+0 6 * * * /home/user/scripts/run_daily.sh
+
+# Every Friday at 18:30
+30 18 * * 5 /home/user/scripts/run_friday.sh

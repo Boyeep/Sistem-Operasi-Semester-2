@@ -1,0 +1,5 @@
+1001 Ani Informatics 88
+1002 Budi Informatics 75
+1003 Citra Systems 92
+1004 Deni Networks 64
+1005 Eka Informatics 81
