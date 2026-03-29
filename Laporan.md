@@ -27,13 +27,13 @@ Secara sumber informasi, data vendor sistem, model produk, serial number, basebo
 
 ### Bukti Screenshot
 
-![Section 1 - uname](Screenshot-Laporan-Handson-1/01-section1-uname-kernel-arch.png)
+<img src="Screenshot-Laporan-Handson-1/01-section1-uname-kernel-arch.png" alt="Section 1 - uname" width="700">
 
-![Section 1 - BIOS](Screenshot-Laporan-Handson-1/02-section1-dmidecode-bios.png)
+<img src="Screenshot-Laporan-Handson-1/02-section1-dmidecode-bios.png" alt="Section 1 - BIOS" width="700">
 
-![Section 1 - System Information](Screenshot-Laporan-Handson-1/03-section1-dmidecode-system.png)
+<img src="Screenshot-Laporan-Handson-1/03-section1-dmidecode-system.png" alt="Section 1 - System Information" width="700">
 
-![Section 1 - Baseboard Information](Screenshot-Laporan-Handson-1/04-section1-dmidecode-baseboard.png)
+<img src="Screenshot-Laporan-Handson-1/04-section1-dmidecode-baseboard.png" alt="Section 1 - Baseboard Information" width="700">
 
 ## Section 2 - Topologi CPU dan Arsitektur Pemrosesan
 
@@ -86,11 +86,11 @@ Linux melihat CPU pada mesin virtual ini sebagai **dua logical CPU** yang dapat 
 
 ### Bukti Screenshot
 
-![Section 2 - lscpu bagian 1](Screenshot-Laporan-Handson-1/09-section2-lscpu-1.png)
+<img src="Screenshot-Laporan-Handson-1/09-section2-lscpu-1.png" alt="Section 2 - lscpu bagian 1" width="700">
 
-![Section 2 - lscpu bagian 2](Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png)
+<img src="Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png" alt="Section 2 - lscpu bagian 2" width="700">
 
-![Section 2 - nproc dan hitung processor](Screenshot-Laporan-Handson-1/11-section2-nproc-cpuinfo-count.png)
+<img src="Screenshot-Laporan-Handson-1/11-section2-nproc-cpuinfo-count.png" alt="Section 2 - nproc dan hitung processor" width="700">
 
 ## Section 3 - Flag CPU, Dukungan Virtualisasi, dan Kemampuan Instruksi
 
@@ -122,7 +122,7 @@ Section 3 menunjukkan bahwa Linux dapat mengidentifikasi kemampuan instruksi CPU
 
 ### Bukti Screenshot
 
-![Section 3 - CPU flags pada lscpu](Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png)
+<img src="Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png" alt="Section 3 - CPU flags pada lscpu" width="700">
 
 ## Section 4 - Hirarki Cache CPU dan Hubungannya dengan Kinerja
 
@@ -149,7 +149,7 @@ Linux menampilkan hirarki cache yang lengkap untuk mesin virtual ini, mulai dari
 
 ### Bukti Screenshot
 
-![Section 4 - lscpu cache dan sysfs](Screenshot-Laporan-Handson-1/12-section4-lscpu-cache-sysfs.png)
+<img src="Screenshot-Laporan-Handson-1/12-section4-lscpu-cache-sysfs.png" alt="Section 4 - lscpu cache dan sysfs" width="700">
 
 ## Section 5 - Perbandingan Memori Fisik dari Firmware dan Memori yang Dilihat Kernel
 
@@ -180,11 +180,11 @@ Perbandingan antara firmware dan kernel menunjukkan bahwa mesin virtual ini diko
 
 ### Bukti Screenshot
 
-![Section 5 - dmidecode memory bagian 1](Screenshot-Laporan-Handson-1/06-section5-dmidecode-memory-1.png)
+<img src="Screenshot-Laporan-Handson-1/06-section5-dmidecode-memory-1.png" alt="Section 5 - dmidecode memory bagian 1" width="700">
 
-![Section 5 - dmidecode memory bagian 2](Screenshot-Laporan-Handson-1/07-section5-dmidecode-memory-2.png)
+<img src="Screenshot-Laporan-Handson-1/07-section5-dmidecode-memory-2.png" alt="Section 5 - dmidecode memory bagian 2" width="700">
 
-![Section 5 - dmidecode memory bagian 3](Screenshot-Laporan-Handson-1/08-section5-dmidecode-memory-3.png)
+<img src="Screenshot-Laporan-Handson-1/08-section5-dmidecode-memory-3.png" alt="Section 5 - dmidecode memory bagian 3" width="700">
 
 ## Section 6 - Interpretasi Penggunaan Memori Linux, Buffer, Cache, dan Available Memory
 
@@ -227,7 +227,7 @@ Sistem tidak sedang berada di bawah tekanan memori. Linux hanya menggunakan RAM 
 
 ### Bukti Screenshot
 
-![Section 6 - free dan vmstat](Screenshot-Laporan-Handson-1/13-section6-free-meminfo-vmstat.png)
+<img src="Screenshot-Laporan-Handson-1/13-section6-free-meminfo-vmstat.png" alt="Section 6 - free dan vmstat" width="700">
 
 ## Section 7 - Pemetaan Perangkat Penyimpanan, Partisi, Filesystem, dan Mount Point
 
@@ -270,7 +270,7 @@ Linux menampilkan struktur storage secara berlapis, mulai dari disk, partisi, fi
 
 ### Bukti Screenshot
 
-![Section 7 - lsblk, findmnt, dan df](Screenshot-Laporan-Handson-1/14-section7-lsblk-findmnt-df.png)
+<img src="Screenshot-Laporan-Handson-1/14-section7-lsblk-findmnt-df.png" alt="Section 7 - lsblk, findmnt, dan df" width="700">
 
 ## Section 8 - Inventaris Perangkat PCI dan Keterkaitannya dengan Driver Kernel
 
@@ -302,9 +302,9 @@ Section 8 menunjukkan bahwa Linux mendeteksi banyak perangkat internal melalui s
 
 ### Bukti Screenshot
 
-![Section 8 - lspci bagian 1](Screenshot-Laporan-Handson-1/15-section8-lspci-1.png)
+<img src="Screenshot-Laporan-Handson-1/15-section8-lspci-1.png" alt="Section 8 - lspci bagian 1" width="700">
 
-![Section 8 - lspci bagian 2](Screenshot-Laporan-Handson-1/16-section8-lspci-2.png)
+<img src="Screenshot-Laporan-Handson-1/16-section8-lspci-2.png" alt="Section 8 - lspci bagian 2" width="700">
 
 ## Section 9 - Perangkat Jaringan dan Karakteristik Link
 
@@ -340,9 +340,9 @@ Section 9 menunjukkan bahwa perangkat jaringan di Linux harus dipahami dari dua 
 
 ### Bukti Screenshot
 
-![Section 9 - ethtool](Screenshot-Laporan-Handson-1/17-section9-ethtool-link.png)
+<img src="Screenshot-Laporan-Handson-1/17-section9-ethtool-link.png" alt="Section 9 - ethtool" width="700">
 
-![Section 9 - ethtool driver dan lshw network](Screenshot-Laporan-Handson-1/18-section9-ethtool-driver-lshw-network.png)
+<img src="Screenshot-Laporan-Handson-1/18-section9-ethtool-driver-lshw-network.png" alt="Section 9 - ethtool driver dan lshw network" width="700">
 
 ## Section 10 - NUMA, Lokalitas CPU, dan Penempatan Resource
 
@@ -369,7 +369,7 @@ Section 10 menunjukkan bahwa sistem ini tidak menampilkan topologi NUMA yang kom
 
 ### Bukti Screenshot
 
-![Section 10 - NUMA pada lscpu](Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png)
+<img src="Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png" alt="Section 10 - NUMA pada lscpu" width="700">
 
 ## Section 11 - Menghubungkan Pesan Boot Kernel dengan Hardware yang Terdeteksi
 
@@ -399,11 +399,11 @@ Section 11 menunjukkan bahwa `dmesg` merupakan jejak kronologis proses inisialis
 
 ### Bukti Screenshot
 
-![Section 11 - dmesg bagian 1](Screenshot-Laporan-Handson-1/19-section11-dmesg-1.png)
+<img src="Screenshot-Laporan-Handson-1/19-section11-dmesg-1.png" alt="Section 11 - dmesg bagian 1" width="700">
 
-![Section 11 - dmesg bagian 2](Screenshot-Laporan-Handson-1/20-section11-dmesg-2.png)
+<img src="Screenshot-Laporan-Handson-1/20-section11-dmesg-2.png" alt="Section 11 - dmesg bagian 2" width="700">
 
-![Section 11 - dmesg bagian 3](Screenshot-Laporan-Handson-1/21-section11-dmesg-3.png)
+<img src="Screenshot-Laporan-Handson-1/21-section11-dmesg-3.png" alt="Section 11 - dmesg bagian 3" width="700">
 
 ## Section 12 - Kesehatan Storage dan Kemampuan Khusus Perangkat
 
@@ -435,7 +435,7 @@ Section 12 menunjukkan bahwa Linux dapat mengidentifikasi jenis dan jalur teknol
 
 ### Bukti Screenshot
 
-![Section 12 - smartctl](Screenshot-Laporan-Handson-1/22-section12-smartctl-storage-health.png)
+<img src="Screenshot-Laporan-Handson-1/22-section12-smartctl-storage-health.png" alt="Section 12 - smartctl" width="700">
 
 ## Section 13 - Laporan Validasi Hardware Lintas Tools
 
@@ -492,7 +492,7 @@ Validasi lintas tools menunjukkan bahwa informasi perangkat keras di Linux palin
 
 ### Bukti Screenshot
 
-![Section 13 - lsusb](Screenshot-Laporan-Handson-1/23-section13-lsusb.png)
+<img src="Screenshot-Laporan-Handson-1/23-section13-lsusb.png" alt="Section 13 - lsusb" width="700">
 
 ## Penutup
 
