@@ -25,6 +25,16 @@ Secara sumber informasi, data vendor sistem, model produk, serial number, basebo
 | Tipe arsitektur | x86_64 (64-bit) |
 | Klasifikasi mesin | Virtual |
 
+### Bukti Screenshot
+
+![Section 1 - uname](Screenshot-Laporan-Handson-1/01-section1-uname-kernel-arch.png)
+
+![Section 1 - BIOS](Screenshot-Laporan-Handson-1/02-section1-dmidecode-bios.png)
+
+![Section 1 - System Information](Screenshot-Laporan-Handson-1/03-section1-dmidecode-system.png)
+
+![Section 1 - Baseboard Information](Screenshot-Laporan-Handson-1/04-section1-dmidecode-baseboard.png)
+
 ## Section 2 - Topologi CPU dan Arsitektur Pemrosesan
 
 Berdasarkan hasil pengamatan menggunakan `lscpu`, `nproc`, dan `/proc/cpuinfo`, sistem Linux pada mesin virtual ini menggunakan arsitektur **x86_64** dengan **CPU op-mode 32-bit dan 64-bit**. Vendor prosesor yang terdeteksi adalah **GenuineIntel**, dengan model **13th Gen Intel(R) Core(TM) i7-13650HX**. Walaupun sistem berjalan sebagai mesin virtual, Linux tetap dapat melihat topologi CPU yang diekspos oleh hypervisor dan menampilkannya sebagai unit pemrosesan yang dapat dijadwalkan.
@@ -74,6 +84,14 @@ rdpid movdiri movdir64b fsrm md_clear serialize flush_l1d arch_capabilities
 
 Linux melihat CPU pada mesin virtual ini sebagai **dua logical CPU** yang dapat dijadwalkan. Topologi yang ditampilkan bukan berupa satu socket dengan dua core, melainkan **dua socket virtual**, masing-masing berisi **satu core** dan **satu thread**. Karena itu, hubungan antara socket, core, thread, dan processor dapat diverifikasi dengan jelas, dan hasil pengamatan menunjukkan bahwa konfigurasi CPU virtual yang diekspos oleh VMware konsisten dengan jumlah logical CPU yang terdeteksi oleh sistem operasi.
 
+### Bukti Screenshot
+
+![Section 2 - lscpu bagian 1](Screenshot-Laporan-Handson-1/09-section2-lscpu-1.png)
+
+![Section 2 - lscpu bagian 2](Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png)
+
+![Section 2 - nproc dan hitung processor](Screenshot-Laporan-Handson-1/11-section2-nproc-cpuinfo-count.png)
+
 ## Section 3 - Flag CPU, Dukungan Virtualisasi, dan Kemampuan Instruksi
 
 Berdasarkan hasil pengamatan terhadap field `flags` dari `lscpu` dan `/proc/cpuinfo`, prosesor virtual yang terlihat oleh Linux memiliki sejumlah kemampuan instruksi penting yang relevan untuk virtualisasi, enkripsi, dan komputasi vektor. Beberapa flag yang dapat diidentifikasi secara jelas dari output adalah `aes`, `sse`, `sse2`, `sse4_1`, `sse4_2`, `avx`, dan `avx2`. Selain itu, terdapat juga flag `hypervisor`, yang menunjukkan bahwa sistem operasi berjalan di dalam lingkungan virtual dan bukan langsung di atas perangkat fisik.
@@ -102,6 +120,10 @@ Dengan demikian, flag CPU yang terlihat pada sistem ini menunjukkan bahwa mesin 
 
 Section 3 menunjukkan bahwa Linux dapat mengidentifikasi kemampuan instruksi CPU melalui flag yang diekspos oleh hypervisor. Pada sistem ini, dukungan untuk enkripsi AES serta ekstensi vektor SSE dan AVX tersedia, sehingga guest tetap mampu menjalankan beban kerja modern dengan efisien. Sementara itu, ketiadaan `vmx` atau `svm` pada output menunjukkan bahwa fitur virtualisasi hardware tidak terlihat dari sisi sistem tamu, yang merupakan kondisi umum pada mesin virtual tanpa nested virtualization.
 
+### Bukti Screenshot
+
+![Section 3 - CPU flags pada lscpu](Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png)
+
 ## Section 4 - Hirarki Cache CPU dan Hubungannya dengan Kinerja
 
 Berdasarkan hasil pengamatan menggunakan `lscpu`, `lscpu -C`, dan direktori `/sys/devices/system/cpu/cpu0/cache/`, Linux menampilkan hirarki cache CPU dalam tiga level utama, yaitu **L1**, **L2**, dan **L3**. Pada sistem ini, cache level 1 terbagi menjadi dua jenis, yaitu **L1d** untuk data dan **L1i** untuk instruksi. Dari output `lscpu -C`, ukuran **L1d** adalah **48 KiB per instance** dengan total **96 KiB (2 instances)**, sedangkan **L1i** berukuran **32 KiB per instance** dengan total **64 KiB (2 instances)**. Pada level berikutnya, cache **L2** bertipe **Unified** dengan ukuran **1.3 MiB per instance** dan total **2.5 MiB (2 instances)**. Sementara itu, cache **L3** juga bertipe **Unified** dengan ukuran **24 MiB per instance** dan total **48 MiB (2 instances)**.
@@ -124,6 +146,10 @@ Secara performa, **L1** dibuat lebih kecil karena harus memiliki latensi akses y
 ### Kesimpulan Section 4
 
 Linux menampilkan hirarki cache yang lengkap untuk mesin virtual ini, mulai dari L1 data, L1 instruksi, L2 unified, hingga L3 unified. Pola yang terlihat menunjukkan bahwa cache menjadi lapisan perantara penting antara register/CPU dan memori utama. L1 berukuran kecil tetapi sangat cepat, sedangkan L3 berukuran jauh lebih besar namun relatif lebih lambat. Pada VM ini, cache yang terlihat oleh guest tampak lebih privat daripada pola umum pada sistem fisik, sehingga hasil observasi juga menunjukkan bahwa topologi cache dalam lingkungan virtual dapat bersifat sintetis atau disederhanakan oleh hypervisor.
+
+### Bukti Screenshot
+
+![Section 4 - lscpu cache dan sysfs](Screenshot-Laporan-Handson-1/12-section4-lscpu-cache-sysfs.png)
 
 ## Section 5 - Perbandingan Memori Fisik dari Firmware dan Memori yang Dilihat Kernel
 
@@ -151,6 +177,14 @@ Selain itu, informasi slot memori yang sangat banyak dengan hampir semua slot ko
 ### Kesimpulan Section 5
 
 Perbandingan antara firmware dan kernel menunjukkan bahwa mesin virtual ini dikonfigurasi dengan **4 GB** RAM, tetapi Linux hanya melihat sekitar **3.8 GiB** sebagai memori total yang tersedia saat runtime. Selisih kecil tersebut normal dan dapat dijelaskan oleh reservasi memori untuk firmware, overhead virtualisasi, serta kebutuhan pemetaan sistem. Dengan demikian, Section 5 menegaskan bahwa `dmidecode` menggambarkan inventaris memori yang dipaparkan firmware, sedangkan `free` dan `/proc/meminfo` menunjukkan memori yang benar-benar dikelola dan digunakan oleh kernel Linux.
+
+### Bukti Screenshot
+
+![Section 5 - dmidecode memory bagian 1](Screenshot-Laporan-Handson-1/06-section5-dmidecode-memory-1.png)
+
+![Section 5 - dmidecode memory bagian 2](Screenshot-Laporan-Handson-1/07-section5-dmidecode-memory-2.png)
+
+![Section 5 - dmidecode memory bagian 3](Screenshot-Laporan-Handson-1/08-section5-dmidecode-memory-3.png)
 
 ## Section 6 - Interpretasi Penggunaan Memori Linux, Buffer, Cache, dan Available Memory
 
@@ -191,6 +225,10 @@ Interpretasi yang benar dari kondisi ini adalah bahwa Linux sedang **memanfaatka
 
 Sistem tidak sedang berada di bawah tekanan memori. Linux hanya menggunakan RAM secara efisien dengan memanfaatkan buffer dan cache untuk meningkatkan kinerja. Fokus analisis yang benar bukan hanya pada nilai `free`, melainkan terutama pada `available`, aktivitas swap, dan pola `vmstat`. Pada hasil pengamatan ini, seluruh indikator menunjukkan bahwa kondisi memori sistem masih longgar dan sehat.
 
+### Bukti Screenshot
+
+![Section 6 - free dan vmstat](Screenshot-Laporan-Handson-1/13-section6-free-meminfo-vmstat.png)
+
 ## Section 7 - Pemetaan Perangkat Penyimpanan, Partisi, Filesystem, dan Mount Point
 
 Berdasarkan hasil `lsblk`, sistem menampilkan satu disk utama bernama **`/dev/sda`** dengan kapasitas **25G**. Disk ini memiliki dua partisi, yaitu **`/dev/sda1`** berukuran **1M** dan **`/dev/sda2`** berukuran **25G**. Dari hasil `findmnt /` dan `df -hT /`, root filesystem (`/`) berada pada perangkat **`/dev/sda2`** dengan tipe filesystem **ext4**. Kapasitas filesystem root adalah **25G**, dengan penggunaan sekitar **11G**, ruang tersedia sekitar **14G**, dan tingkat penggunaan sekitar **44%**.
@@ -230,6 +268,10 @@ Dari sudut pandang pemetaan storage, struktur utamanya dapat dijelaskan sebagai 
 
 Linux menampilkan struktur storage secara berlapis, mulai dari disk, partisi, filesystem, hingga mount point. Pada sistem ini, perangkat storage utama adalah **`/dev/sda`**, dan root filesystem berada pada **`/dev/sda2`** dengan filesystem **ext4** yang dimount pada **`/`**. Output juga menunjukkan adanya loop device dari Snap dan media optik virtual dari VMware, tetapi jalur penyimpanan utama sistem tetap terpusat pada `/dev/sda2` sebagai tempat Linux dipasang dan dijalankan.
 
+### Bukti Screenshot
+
+![Section 7 - lsblk, findmnt, dan df](Screenshot-Laporan-Handson-1/14-section7-lsblk-findmnt-df.png)
+
 ## Section 8 - Inventaris Perangkat PCI dan Keterkaitannya dengan Driver Kernel
 
 Berdasarkan output `lspci -nnk`, Linux berhasil mendeteksi berbagai perangkat internal melalui subsistem PCI. Hasil ini menunjukkan bahwa perangkat keras tidak hanya perlu dikenali berdasarkan identitas vendor dan kelas perangkat, tetapi juga harus dipasangkan dengan driver kernel yang sesuai agar dapat digunakan oleh sistem operasi. Pada mesin virtual VMware ini, beberapa perangkat yang muncul bersifat virtual atau hasil emulasi, tetapi tetap direpresentasikan melalui struktur PCI seperti pada sistem fisik.
@@ -257,6 +299,12 @@ Salah satu contoh keterkaitan perangkat dengan driver kernel dapat dilihat pada 
 ### Kesimpulan Section 8
 
 Section 8 menunjukkan bahwa Linux mendeteksi banyak perangkat internal melalui subsistem PCI dan kemudian mengaitkannya dengan driver kernel yang sesuai. Pada mesin virtual ini, inventaris PCI mencakup perangkat grafis, jaringan, audio, USB, storage, dan perangkat virtualisasi VMware. Hal ini menegaskan bahwa manajemen perangkat keras di Linux bukan hanya soal mengenali perangkat, tetapi juga memastikan adanya driver aktif yang memungkinkan perangkat tersebut berfungsi di dalam sistem operasi.
+
+### Bukti Screenshot
+
+![Section 8 - lspci bagian 1](Screenshot-Laporan-Handson-1/15-section8-lspci-1.png)
+
+![Section 8 - lspci bagian 2](Screenshot-Laporan-Handson-1/16-section8-lspci-2.png)
 
 ## Section 9 - Perangkat Jaringan dan Karakteristik Link
 
@@ -290,6 +338,12 @@ Perbedaan antara kedua tampilan tersebut penting untuk dipahami. Tampilan **PCI*
 
 Section 9 menunjukkan bahwa perangkat jaringan di Linux harus dipahami dari dua sisi sekaligus, yaitu sebagai perangkat keras pada bus PCI dan sebagai interface logis pada level sistem operasi. Pada sistem ini, NIC **Intel 82545EM** muncul sebagai perangkat PCI di **`0000:02:01.0`**, menggunakan driver **`e1000`**, dan di level OS direpresentasikan sebagai interface **`ens33`**. Link jaringan terdeteksi aktif dengan kecepatan **1 Gbit/s** dan mode **full duplex**, sehingga dapat disimpulkan bahwa antarmuka jaringan virtual ini terkonfigurasi dengan baik dan berfungsi normal.
 
+### Bukti Screenshot
+
+![Section 9 - ethtool](Screenshot-Laporan-Handson-1/17-section9-ethtool-link.png)
+
+![Section 9 - ethtool driver dan lshw network](Screenshot-Laporan-Handson-1/18-section9-ethtool-driver-lshw-network.png)
+
 ## Section 10 - NUMA, Lokalitas CPU, dan Penempatan Resource
 
 Berdasarkan output `lscpu`, sistem menampilkan informasi NUMA berupa **`NUMA node(s): 1`** dan **`NUMA node0 CPU(s): 0,1`**. Hal ini menunjukkan bahwa Linux hanya melihat **satu node NUMA** yang mencakup seluruh logical CPU yang tersedia pada mesin virtual ini. Dengan kata lain, dari sudut pandang guest Linux, topologi memori dan CPU tampak **seragam** dan tidak terbagi ke dalam beberapa node dengan jarak akses yang berbeda-beda. Karena itu, sistem ini lebih tepat digolongkan sebagai **UMA-like** daripada sistem NUMA kompleks.
@@ -312,6 +366,10 @@ Pada mesin virtual ini, karena Linux hanya melihat satu node NUMA, sistem tidak 
 ### Kesimpulan Section 10
 
 Section 10 menunjukkan bahwa sistem ini tidak menampilkan topologi NUMA yang kompleks. Linux hanya melihat satu node NUMA yang mencakup seluruh CPU dan memori guest, sehingga sistem tampak **UMA-like**. Meskipun tidak ada pembagian memori antar node pada pengamatan ini, konsep lokalitas tetap penting untuk dipahami karena pada database, virtualisasi, dan aplikasi multi-thread, penempatan CPU dan memori yang tepat dapat sangat memengaruhi kinerja pada sistem yang benar-benar NUMA-aware.
+
+### Bukti Screenshot
+
+![Section 10 - NUMA pada lscpu](Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png)
 
 ## Section 11 - Menghubungkan Pesan Boot Kernel dengan Hardware yang Terdeteksi
 
@@ -338,6 +396,14 @@ Log yang Anda kirim lebih banyak menyorot fase **early boot** daripada fase pemu
 ### Kesimpulan Section 11
 
 Section 11 menunjukkan bahwa `dmesg` merupakan jejak kronologis proses inisialisasi hardware oleh kernel Linux. Pada log yang diamati, tahapan yang paling jelas terlihat adalah inisialisasi CPU, pembacaan tabel ACPI, deteksi konfigurasi memori dari DMI, dan reservasi area memori firmware. Walaupun potongan log ini belum banyak menampilkan tahap pemuatan driver perangkat seperti NIC atau storage, data yang ada sudah cukup untuk membuktikan bahwa Linux mendeteksi hardware secara aktif dan bertahap sejak fase awal boot.
+
+### Bukti Screenshot
+
+![Section 11 - dmesg bagian 1](Screenshot-Laporan-Handson-1/19-section11-dmesg-1.png)
+
+![Section 11 - dmesg bagian 2](Screenshot-Laporan-Handson-1/20-section11-dmesg-2.png)
+
+![Section 11 - dmesg bagian 3](Screenshot-Laporan-Handson-1/21-section11-dmesg-3.png)
 
 ## Section 12 - Kesehatan Storage dan Kemampuan Khusus Perangkat
 
@@ -366,6 +432,10 @@ Secara praktis, snapshot kesehatan storage pada sistem ini dapat diringkas sebag
 ### Kesimpulan Section 12
 
 Section 12 menunjukkan bahwa Linux dapat mengidentifikasi jenis dan jalur teknologi storage, lalu menambah konteks kesehatan perangkat melalui `smartctl`. Pada sistem ini, disk utama terlihat sebagai **VMware Virtual S 25G** yang terhubung melalui **VMware SATA AHCI controller** dengan driver **`ahci`**. Meskipun `smartctl` dapat dijalankan, perangkat virtual ini dilaporkan **tidak memiliki SMART capability**, sehingga informasi health tetap terbatas. Ini merupakan kondisi yang masuk akal pada lingkungan VMware, karena guest tidak selalu menerima seluruh telemetri kesehatan dari perangkat storage fisik host.
+
+### Bukti Screenshot
+
+![Section 12 - smartctl](Screenshot-Laporan-Handson-1/22-section12-smartctl-storage-health.png)
 
 ## Section 13 - Laporan Validasi Hardware Lintas Tools
 
@@ -420,82 +490,12 @@ Section 13 menyatukan hasil pengamatan dari berbagai command untuk memvalidasi i
 
 Validasi lintas tools menunjukkan bahwa informasi perangkat keras di Linux paling akurat bila dibangun dari beberapa sumber sekaligus, bukan dari satu command saja. `dmidecode` menjelaskan apa yang dipaparkan firmware, `lscpu` dan `/proc/cpuinfo` menjelaskan bagaimana CPU terlihat oleh kernel, `free` dan `/proc/meminfo` menggambarkan kondisi runtime memori, `lsblk` serta `findmnt` memetakan storage ke filesystem, `lspci` mengungkap perangkat internal pada bus PCI, `ethtool` menjelaskan keadaan nyata NIC, dan `dmesg` memperlihatkan urutan deteksi hardware saat boot. Laporan ini juga menunjukkan bahwa pada lingkungan virtual, beberapa field dapat tampak generik, tidak lengkap, atau disederhanakan, sehingga interpretasi yang baik harus selalu mempertimbangkan konteks virtualisasi.
 
+### Bukti Screenshot
+
+![Section 13 - lsusb](Screenshot-Laporan-Handson-1/23-section13-lsusb.png)
+
 ## Penutup
 
 Berdasarkan seluruh pengamatan, sistem Linux yang dianalisis berjalan pada lingkungan virtual VMware dengan konfigurasi perangkat keras virtual yang berhasil dikenali Linux melalui berbagai lapisan, mulai dari firmware, kernel, bus PCI, interface jaringan, hingga filesystem. Seluruh section pada praktikum ini menunjukkan bahwa analisis perangkat keras di Linux tidak cukup dilakukan dengan satu command, tetapi perlu divalidasi dengan beberapa tool agar kesimpulan yang diambil lebih akurat.
 
 Secara umum, sistem yang diamati berada dalam kondisi normal dari sisi CPU, memori, storage, jaringan, dan proses inisialisasi kernel. Beberapa informasi terlihat generik atau terbatas karena sifat virtualisasi, tetapi justru hal ini menjadi bagian penting dari pembelajaran bahwa Linux hanya dapat melihat apa yang dipaparkan oleh firmware dan hypervisor kepada sistem tamu.
-
-## Lampiran Screenshot
-
-### Section 1 - Profil Perangkat Keras Sistem
-
-![Section 1 - uname](Screenshot-Laporan-Handson-1/01-section1-uname-kernel-arch.png)
-
-![Section 1 - BIOS](Screenshot-Laporan-Handson-1/02-section1-dmidecode-bios.png)
-
-![Section 1 - System Information](Screenshot-Laporan-Handson-1/03-section1-dmidecode-system.png)
-
-![Section 1 - Baseboard Information](Screenshot-Laporan-Handson-1/04-section1-dmidecode-baseboard.png)
-
-![Section 1 - Firmware tambahan](Screenshot-Laporan-Handson-1/05-section1-dmidecode-extra-firmware.png)
-
-### Section 2 dan Section 3 - CPU Topology dan CPU Flags
-
-![Section 2 - lscpu bagian 1](Screenshot-Laporan-Handson-1/09-section2-lscpu-1.png)
-
-![Section 2 - lscpu bagian 2](Screenshot-Laporan-Handson-1/10-section2-lscpu-2.png)
-
-![Section 2 - nproc dan hitung processor](Screenshot-Laporan-Handson-1/11-section2-nproc-cpuinfo-count.png)
-
-### Section 4 - Hirarki Cache CPU
-
-![Section 4 - lscpu cache dan sysfs](Screenshot-Laporan-Handson-1/12-section4-lscpu-cache-sysfs.png)
-
-### Section 5 - Memori Fisik dari Firmware
-
-![Section 5 - dmidecode memory bagian 1](Screenshot-Laporan-Handson-1/06-section5-dmidecode-memory-1.png)
-
-![Section 5 - dmidecode memory bagian 2](Screenshot-Laporan-Handson-1/07-section5-dmidecode-memory-2.png)
-
-![Section 5 - dmidecode memory bagian 3](Screenshot-Laporan-Handson-1/08-section5-dmidecode-memory-3.png)
-
-### Section 6 - Memori Runtime dan vmstat
-
-![Section 6 - free dan vmstat](Screenshot-Laporan-Handson-1/13-section6-free-meminfo-vmstat.png)
-
-### Section 7 - Storage Map
-
-![Section 7 - lsblk, findmnt, dan df](Screenshot-Laporan-Handson-1/14-section7-lsblk-findmnt-df.png)
-
-### Section 8 - Perangkat PCI
-
-![Section 8 - lspci bagian 1](Screenshot-Laporan-Handson-1/15-section8-lspci-1.png)
-
-![Section 8 - lspci bagian 2](Screenshot-Laporan-Handson-1/16-section8-lspci-2.png)
-
-### Section 9 - Perangkat Jaringan
-
-![Section 9 - ethtool](Screenshot-Laporan-Handson-1/17-section9-ethtool-link.png)
-
-![Section 9 - ethtool driver dan lshw network](Screenshot-Laporan-Handson-1/18-section9-ethtool-driver-lshw-network.png)
-
-### Section 10 - NUMA
-
-Section 10 menggunakan bukti dari output `lscpu` yang sudah tercantum pada lampiran Section 2 dan Section 3.
-
-### Section 11 - dmesg dan Inisialisasi Hardware
-
-![Section 11 - dmesg bagian 1](Screenshot-Laporan-Handson-1/19-section11-dmesg-1.png)
-
-![Section 11 - dmesg bagian 2](Screenshot-Laporan-Handson-1/20-section11-dmesg-2.png)
-
-![Section 11 - dmesg bagian 3](Screenshot-Laporan-Handson-1/21-section11-dmesg-3.png)
-
-### Section 12 - Storage Health
-
-![Section 12 - smartctl](Screenshot-Laporan-Handson-1/22-section12-smartctl-storage-health.png)
-
-### Section 13 - Validasi Tambahan USB
-
-![Section 13 - lsusb](Screenshot-Laporan-Handson-1/23-section13-lsusb.png)
