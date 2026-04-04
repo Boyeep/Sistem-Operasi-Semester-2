@@ -6,7 +6,7 @@
 * https://www.slideshare.net/slideshow/ch07os9epptx/254873171
 * https://www.slideshare.net/slideshow/11iomanagementppt-261198886/261198886
 
---
+---
 
 * https://www.slideshare.net/slideshow/operating-system-process-schedulingpptx/266740680
 * https://www.slideshare.net/slideshow/deadlocks-in-operating-system/10188417
