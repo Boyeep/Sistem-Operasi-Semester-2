@@ -1,0 +1,254 @@
+===== Screenshot 2026-05-05 144619.png =====
+Lab 1 —- Thread Concurrency and Resource
+Competition
+Objective, Motivation, and Main Concept
+while sharing system resources. In a concurrent system, processes or threads may execute in an
+when threads compete for limited resources. The objective of this lab is to introduce students to
+synchronization.
+applications--rely on concurrent execution. For example, multiple users accessing a server
+simultaneously result in threads competing for CPU time, memory, and I/O devices. Understanding how
+threads behave under competition is essential to designing efficient and correct systems.
+resources, such as memory, files, or devices . When multiple threads attempt to access such resources
+simultaneously without coordination, the system behavior becomes nondeterministic. This is the
+This lab demonstrates that even without explicit errors, concurrent execution alone introduces
+unpredictability. Students will observe how thread interleaving occurs and how shared resources become
+points of contention.
+
+===== Screenshot 2026-05-05 144627.png =====
+Implementation (C with PosiX Threads)
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+void* task(void* arg) {
+int id = *(int*)arg;
+for(int i = 0; i < 5; i++) {
+printf("Thread %d is running iteration %d\n", id, i);
+sleep(1);
+return NULL;
+int mainO {
+pthread_t t1, t2;
+int id1 = 1, id2 = 2,
+pthread_create(&t1, NULL, task, &id1);
+pthread_create(&t2, NULL, task, &id2),
+pthread_join(t1, NULL);
+pthread_join(t2, NULL);
+return O;
+1
+
+===== Screenshot 2026-05-05 144632.png =====
+Requirements
+GCC compiler
+Posix thread library (pthread)
+一
+Linux/Unix environment
+How to Run
+gcc lab1.c -0 lab1 -pthread
+_/lab1
+Expected Outcome
+Students will observe that the output of the two threads is interleaved unpredictably. Sometimes Thread
+there is no guaranteed ordering unless explicitly enforced.
+This behavior illustrates the concept of independent parallel execution and resource sharing. Although no
+incorrect results occur yet, this unpredictability is the root cause of more serious problems like race
+conditions and deadlock. The system scheduler determines execution order dynamically, which aligns with
+
+===== Screenshot 2026-05-05 144638.png =====
+Lab 2 — Simulating Deadlock with Threads
+Objective, Motivation, and Main Concept
+This lab introduces the concept of deadlock, defined as a situation where a set of processes are
+improper resource acquisition ordering leads to deadlock.
+In real-world systems, deadlock can halt entire applications, such as database systems or operating
+systems. For example, two services waiting indefinitely for each other's locks can cause system-wide
+failure.
+resources in opposite order.
+
+===== Screenshot 2026-05-05 144658.png =====
+Implementation
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+pthread_mutex_tA, B;
+void* thread1(void* arg) {
+pthread_mutex_lock(&A);
+printf("Thread 1 locked Ain");
+sleep(1);
+pthread_mutex_lock(&B);
+printf("Thread 1 locked Bin");
+pthread_mutex_unlock(&B);
+pthread_mutex_unlock(&A);
+return NULL;
+{
+void* thread2(void* arg) {
+pthread_mutex_lock(&B);
+printf("Thread 2 locked B\n");
+sleep(1);
+pthread_mutex_lock(&A);
+printf("Thread 2 locked A\n");
+pthread_mutex_unlock(&A);
+pthread_mutex_unlock(&B);
+return NULL;
+int main0 {
+pthread_t t1, t2;
+pthread_mutex_init(&A, NULL);
+pthread_mutex_init(&B, NULL);
+pthread_create(&t1, NULL, thread1, NULL);
+pthread_create(&t2, NULL, thread2, NULL);
+pthread_join(t1, NULL);
+pthread_join(t2, NULL);
+
+===== Screenshot 2026-05-05 144703.png =====
+Expected Outcome
+The program will freeze indefinitely, demonstrating deadlock. Thread 1 holds resource A and waits for B,
+while Thread 2 holds B and waits for A.
+Students will clearly see the circular wait condition, one of the necessary conditions for deadlock. This
+another.
+
+===== Screenshot 2026-05-05 144708.png =====
+Lab 3 -- Deadlock Prevention via Resource Ordering
+Objective, Motivation, and Main Concept
+for deadlock. Specifically, we remove the circular wait condition by enforcing a strict order of resource
+acquisition.
+In real systems, ordering strategies are commonly used in databases and operating systems to ensure
+safe resource allocation.
+
+===== Screenshot 2026-05-05 144716.png =====
+Implementation
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+pthread_mutex_t A, B;
+void* safe_thread(void* arg) {
+int id = *(int*)arg;
+printf("Thread %d wants resource Ain", id);
+pthread_mutex_lock(&A);,
+printf("Thread %d locked resource An", id);
+sleep(1);
+printf("Thread %d wants resource Bin", id);
+pthread_mutex_lock(&B);
+printf("Thread %d locked resource Bin", id);
+printf("Thread %d is using both resources safelyin", id);
+sleep(1);
+pthread_mutex_unlock(&B);
+printf("Thread %d released resource Bin", id);
+pthread_mutex_unlock(&A);
+printf("Thread %d released resource Ain", id);
+return NULL;
+int main0 {
+pthread_t t1, t2;
+int id1 = 1, id2 = 2;
+pthread_mutex_init(&A, NULL);
+pthread_mutex_init(&B, NULL);
+pthread_create(&t1, NULL, safe_thread, &id1);
+pthread_create(&t2, NULL, safe_thread, &id2);
+pthread_join(t1, NULL);
+pthread_join(t2, NULL);
+pthread_mutex_destroy(&A);
+pthread_mutex_destroy(&B);
+return 0;
+
+===== Screenshot 2026-05-05 144721.png =====
+Expected Outcome
+The program runs successfully without deadlock. Both threads follow the same order, preventing circular
+dependency.
+Students observe that system design constraints can prevent deadlock, as emphasized in Chapter 6
+
+===== Screenshot 2026-05-05 144724.png =====
+Lab 4 — Dining Philosophers with Semaphores
+Objective, Motivation, and Main Concept
+This lab explores the classic Dining Philosophers Problem, illustrating synchronization and deadlock.
+It models real-world resource sharing (e.g., database locks, network access). Each philosopher (thread)
+competes for shared resources (forks).
+
+===== Screenshot 2026-05-05 144730.png =====
+Implementation (Semaphore Solution)
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
+#define N 5
+sem_t forks[N];
+void* philosopher(void* num) {
+int i = *(int*)num;
+while(1) {
+printf("Philosopher %d thinking\n", i);
+sleep(1);
+sem_wait(&forks[i]);
+sem_wait(&forks[(i+ 1)% N]);
+printf("Philosopher %d eatingn", i);
+sleep(1);
+sem_post(&forks[i]);
+sem_post(&forks[(i+1)%N]);
+int mainO {
+pthread_t p[N];
+int ids[N];
+for(int i=0;j<N;i++) sem_init(&forks[i],0, 1);
+for(int i=0;j<N;i++X
+ids[]=i,
+for(int i=O;j<N;i++) pthread_join(p[],NULL);
+1
+
+===== Screenshot 2026-05-05 144734.png =====
+Expected Outcome
+Students may observe deadlock or starvation, depending on scheduling.
+This directly reflects Chapter 6's discussion of the Dining Philosophers problem and semaphore-based
+solutions.
+
+===== Screenshot 2026-05-05 144737.png =====
+Lab 5 - Blocking Synchronization using
+Semaphores
+Objective, Motivation, and Main Concept
+This lab introduces blocking synchronization, where threads wait efficiently instead of busy-waiting.
+Unlike spinning, blocking allows the Os to suspend threads, improving performance.
+
+===== Screenshot 2026-05-05 144744.png =====
+Implementation (Producer-Consumer)
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
+#define SIZE 5
+int buffer[SIZE];
+int count = 0;
+sem_t empty, full, mutex,
+void* producer(void* arg) {
+while(1) {
+sleep(1); I/ simulate production time
+sem_wait(&empty);  I/ wait if buffer is full
+sem_wait(&mutex); Il enter critical section
+buffer[count++] = 1;
+printf("Produced, count = %dn", count);,
+sem_post(&mutex); I/ leave critical section
+sem_post(&full);  I/ signal item available
+void* consumer(void* arg) {
+while(1) {
+sleep(2); // simulate consumption time
+sem_wait(&full);  I/ wait if buffer is empty
+sem_wait(&mutex); I/ enter critical section
+buffer[--count] = 0;
+printf("Consumed, count = %din", count);
+sem_post(&mutex); I/ leave critical section
+sem_post(&empty); I/ signal space available
+1
+
+===== Screenshot 2026-05-05 144748.png =====
+int mainO {
+pthread_t prod, cons;
+I/ Initialize semaphores
+sem_init(&empty, 0, SIZE); I/ buffer initially empty
+sem_init(&full, 0, O),  I/ no items initially
+sem_init(&mutex, 0, 1);  I/ binary semaphore (mutex)
+I/ Create threads
+pthread_create(&prod, NULL, producer, NULL);
+pthread_create(&cons, NULL, consumer, NULL);
+I/ Wait for threads (they run infinitely)
+pthread_join(prod, NULL);
+pthread_join(cons, NULL);
+I/ Cleanup (not reached in infinite loop, but good practice)
+sem_destroy(&empty);
+sem_destroy(&full);
+sem_destroy(&mutex);
+return O;
+Expected Outcome
+Threads will block and wake correcty, avoiding CPU waste.
+This demonstrates efficient synchronization using semaphores, as discussed in Chapter 6 concurrency
+mechanisms .
+
