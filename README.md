@@ -49,6 +49,11 @@ Inside [Practice](./Practice), the main study areas include:
 - semaphore, condition variable, and synchronization
 - deadlock, resource competition, and blocking behavior
 
+## External Resources
+
+- Modul Sisop: https://github.com/arsitektur-jaringan-komputer/Modul-Sisop
+- Pelatihan Linux: https://github.com/arsitektur-jaringan-komputer/Pelatihan-Linux/tree/master/0.%20Prerequisites
+
 ## Notes
 
 - Most examples are intended for Linux, WSL, or Git Bash.
