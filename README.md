@@ -1,45 +1,56 @@
 # Sistem Operasi Semester 2
 
-This repository contains learning materials and practice files for Operating System coursework, especially Linux command line, shell scripting, cron jobs, and AWK.
+Materi, latihan, hands-on report, dan analisis quiz untuk
+pembelajaran Sistem Operasi Semester 2. Fokus utamanya mencakup Linux command line,
+process management, shell scripting, concurrency, synchronization, dan topik dasar
+sistem operasi lainnya.
 
 ## Repository Structure
 
-- [Materi](./Materi) - lecture materials, PPT references, and pre-test assets
-- [Practice](./Practice) - hands-on scripts, AWK examples, cron samples, and task exercises
+- [Materi](./Materi) - materi kuliah, slide, dan referensi pendukung
+- [Practice](./Practice) - latihan shell, cron, AWK, dan task practice
+- [Handson-1](./Handson-1) - computer systems overview
+- [Handson-2](./Handson-2) - OS overview and process management
+- [Handson-3](./Handson-3) - process basics and simple process coordination in Bash
+- [Handson-4](./Handson-4) - threads and concurrency
+- [Handson-5](./Handson-5) - thread synchronization
+- [Handson-6](./Handson-6) - resource competition, deadlock, and blocking synchronization
+- [Quiz-Test](./Quiz-Test) - quiz answers and analysis
 
-## Practice Overview
+## Hands-On Reports
 
-Inside [Practice](./Practice) you will find:
+- [Handson-3 PDF](./Handson-3/Laporan_Hands-on_3.pdf)
+- [Handson-4 PDF](./Handson-4/Laporan_Hands-on_4.pdf)
+- [Handson-5 PDF](./Handson-5/Laporan_Hands-on_5.pdf)
+- [Handson-6 PDF](./Handson-6/Laporan_Hands-on_6.pdf)
 
-- [Practice/shell](./Practice/shell) - shell scripting examples from basic to intermediate
-- [Practice/cron](./Practice/cron) - cron job examples and schedulable scripts
-- [Practice/awk](./Practice/awk) - AWK programs with sample student data
-- [Practice/tasks](./Practice/tasks) - short exercises and sample answers
+Word versions are also available inside each `Handson-*` folder.
 
-Start with:
+## Practice Topics
 
-- [Practice/README.md](./Practice/README.md)
-- [Practice/tasks/questions.md](./Practice/tasks/questions.md)
+Inside [Practice](./Practice), the main study areas include:
 
-## Learning Topics
+- shell scripting
+- cron jobs
+- AWK basics
+- command-line exercises
+- small Linux task automation examples
 
-- Linux command and navigation
-- User and permission concepts
-- CLI text editor basics
-- Shell scripting
-- Variables, input/output, quoting, operators
-- Conditional statements
-- Looping
-- Functions
-- Cron jobs
-- AWK basics, `BEGIN`, and `END`
+## Main Topics Covered
 
-## External References
-
-- Modul Sisop: https://github.com/arsitektur-jaringan-komputer/Modul-Sisop
-- Pelatihan Linux: https://github.com/arsitektur-jaringan-komputer/Pelatihan-Linux/tree/master/0.%20Prerequisites
+- Linux command line and navigation
+- process creation and monitoring
+- signals and process lifecycle
+- shell scripting fundamentals
+- cron and automation basics
+- AWK text processing
+- threads and concurrency
+- race condition and mutual exclusion
+- semaphore, condition variable, and synchronization
+- deadlock, resource competition, and blocking behavior
 
 ## Notes
 
-- Most scripts in `Practice` are intended to be run in Linux, WSL, or Git Bash.
-- The examples are intentionally simple so they are easy to study, explain, and modify.
+- Most examples are intended for Linux, WSL, or Git Bash.
+- Some hands-on folders contain both report files and source/supporting materials.
+- The reports in this repository are organized as coursework documentation.
