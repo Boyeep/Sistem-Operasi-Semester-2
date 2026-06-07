@@ -1,6 +1,6 @@
 # Analisis Quiz-Test
 
-Folder `Quiz-Test` berisi `20` screenshot soal kuis yang membahas topik:
+Soal kuis membahas topik:
 
 - blocking dan fragmentasi record
 - alokasi file
@@ -8,11 +8,6 @@ Folder `Quiz-Test` berisi `20` screenshot soal kuis yang membahas topik:
 - operasi dasar file system
 - organisasi file
 - hak akses, directory information, dan file sharing
-
-Catatan:
-
-- Semua gambar di bawah ditampilkan lebih kecil memakai tag HTML `img` supaya preview Markdown tidak terlalu besar.
-- Untuk beberapa soal bertipe `pilih semua jawaban yang benar`, teks opsi pada screenshot terlihat sedikit menyatu. Karena itu, penjelasan di bawah fokus pada konsep dan jawaban intinya.
 
 ## 1. Fixed-Length Blocking
 
@@ -204,7 +199,7 @@ Penjelasan: aplikasi kasir biasanya melakukan pencarian cepat untuk satu record 
 
 ## Ringkasan Konsep
 
-Dari seluruh screenshot, materi yang paling dominan adalah:
+Materi yang paling dominan adalah:
 
 - `blocking`: fixed-length, unspanned, spanned, dan fragmentasi internal
 - `allocation`: contiguous, chained, indexed, pre-allocation, dynamic allocation
