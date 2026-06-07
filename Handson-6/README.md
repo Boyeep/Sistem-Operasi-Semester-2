@@ -1,7 +1,5 @@
 # Hands-On 6
 
-This file is a cleaned OCR transcription of the screenshots in `Handson-6`.
-
 ## Lab 1 - Thread Concurrency and Resource Competition
 
 ### Objective, Motivation, and Main Concept

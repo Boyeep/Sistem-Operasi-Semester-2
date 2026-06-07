@@ -1,7 +1,5 @@
 # Hands-On 5
 
-This file is a cleaned OCR transcription of the screenshots in `Handson-5`.
-
 ## Lab 1 - Creating Multiple Threads and Observing Concurrent Execution
 
 ### Objective

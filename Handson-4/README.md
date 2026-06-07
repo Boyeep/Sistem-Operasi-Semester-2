@@ -1,13 +1,5 @@
 # Hands-On 4: Threads and Concurrency
 
-This file is a cleaned OCR transcription of the screenshots in `Handson-4`.
-
-This labs are divided into two parts: Bash scripting, which demonstrates process-based concurrency, and C programming with POSIX threads, which demonstrates true multithreading. Each activity is designed to help students move from observation to explanation: they do not only run code, but also analyze timing, shared resources, blocking behavior, synchronization, and execution independence.
-
-## Part A - Bash Scripting Hands-On Labs
-
-Bash does not create threads in the same way as C with pthreads. However, Bash can run commands and functions as background processes using `&`. This makes Bash useful for introducing concurrency concepts before students work with real threads in C.
-
 ## Lab 1 (Bash): Sequential vs Concurrent Execution
 
 ### Objective, Motivation, and Main Concept
@@ -286,10 +278,6 @@ This outcome demonstrates that blocking is local to the task that performs the b
 The important conceptual outcome is that concurrency helps systems remain productive during waiting periods. If the tasks were sequential, Task B would not start until Task A finished waiting. In the concurrent version, the waiting time of Task A overlaps with the work of Task B.
 
 Students should connect this behavior to threads in real operating systems. When one thread waits for I/O, another thread in the same process or another process can continue. This is one reason multithreaded applications can remain responsive even when some operations are slow.
-
-## Part B - C Programming Hands-On Labs with pthreads
-
-C with POSIX threads provides real thread-based concurrency. Unlike Bash background jobs, pthreads create multiple execution flows inside the same process. These threads share the same address space, which makes communication efficient but also creates risks when shared data is modified without synchronization.
 
 ## Lab 6 (C): Sequential vs Multithread Execution
 
@@ -625,8 +613,3 @@ Students should compare this with a single-threaded program. In a single-threade
 
 The deeper conceptual outcome is that threads improve responsiveness and resource usage, especially when programs contain operations with different timing behavior. However, this benefit is safest when threads perform independent work or when shared data is properly synchronized.
 
-## Summary
-
-Across these 10 labs, students should observe a progression of ideas. First, concurrency can improve responsiveness and reduce total waiting time. Second, concurrency can introduce nondeterministic behavior. Third, shared mutable resources create race conditions. Fourth, synchronization mechanisms such as locks and mutexes restore correctness. Finally, thread blocking does not have to stop an entire program.
-
-The central lesson is that threads are powerful because they allow multiple execution paths within a program, but they require careful design. Performance, responsiveness, correctness, and synchronization must be balanced in every concurrent system.
