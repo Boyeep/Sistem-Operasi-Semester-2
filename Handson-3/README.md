@@ -1,4 +1,4 @@
-# Handson-3: process basics and simple process coordination in Bash
+# Handson-3: Process basics and simple process coordination in Bash
 
 ## Lab 1: Creating and Observing a Simple Process
 
