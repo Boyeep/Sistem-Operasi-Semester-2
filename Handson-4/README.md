@@ -1,4 +1,4 @@
-# Hands-On 4: Threads and Concurrency
+# Hands-On 4: Threads and Concurrency (Bash & C)
 
 ## Lab 1 (Bash): Sequential vs Concurrent Execution
 

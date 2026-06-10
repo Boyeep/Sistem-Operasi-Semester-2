@@ -1,4 +1,4 @@
-# Hands-On 6
+# Hands-On 6: Deadlock and Starvation
 
 ## Lab 1 - Thread Concurrency and Resource Competition
 
