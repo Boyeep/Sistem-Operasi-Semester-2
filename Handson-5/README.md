@@ -1,4 +1,4 @@
-# Hands-On 5
+# Hands-On 5: Thread synchronization
 
 ## Lab 1 - Creating Multiple Threads and Observing Concurrent Execution
 
