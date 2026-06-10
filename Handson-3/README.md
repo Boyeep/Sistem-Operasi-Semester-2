@@ -1,23 +1,23 @@
 # Handson-3: process basics and simple process coordination in Bash
 
-# Creating and Observing a Simple Process
+## Lab 1: Creating and Observing a Simple Process
 
-## Objective
+### Objective
 
 Students understand how a process is created from Bash, how to run it in the foreground and background, and how to observe its PID and basic status.
 
-## Motivation
+### Motivation
 
 In operating systems, almost every activity is executed in the form of a process. When we run a program from the shell, we are actually creating a new process. Understanding this is the foundation for larger topics such as scheduling, synchronization, monitoring, and system automation. At the beginner level, students need to directly see that one script can spawn another process, that every process has its own PID, and that a process can run either in the foreground or the background. This hands-on exercise is important because students often run commands without fully understanding what happens behind the scenes. Through this exercise, they will see how Bash can control processes in a simple way and how tools like `ps` can be used for observation.
 
-## Main Concepts
+### Main Concepts
 
 - Running a process from Bash
 - Foreground vs background
 - Process PID
 - Observing process status with `ps`
 
-## Script
+### Script
 
 Create a file named `task1_process_basic.sh`:
 
@@ -45,7 +45,7 @@ echo "Status after kill:"
 ps -p $PID_BG -o pid,ppid,stat,cmd
 ```
 
-## Practice Steps
+### Practice Steps
 
 1. Save the script as `task1_process_basic.sh`.
 2. Make it executable:
@@ -60,7 +60,7 @@ chmod +x task1_process_basic.sh
 ./task1_process_basic.sh
 ```
 
-## Script Explanation
+### Script Explanation
 
 - `sleep 30 &` runs the `sleep` process in the background.
 - The `&` symbol means the shell does not wait for the process to finish.
@@ -68,34 +68,34 @@ chmod +x task1_process_basic.sh
 - `ps -p PID -o pid,ppid,stat,cmd` displays information about a specific process.
 - `kill PID` sends a termination signal to the process.
 
-## What to Observe
+### What to Observe
 
 - The PID of the created process
 - The process status, for example `S` for sleeping
 - The change in status after a `kill` signal is sent
 
-## Expected Outcome
+### Expected Outcome
 
 Students see that Bash can create a new process and place it in the background. They also see that a process can be observed using `ps`, has its own PID, and can be terminated manually. This becomes the foundation for understanding the process lifecycle.
 
-# Monitoring the Status of Another Process
+## Lab 2: Monitoring the Status of Another Process
 
-## Objective
+### Objective
 
 Students understand how one process or script can check the status of another process and make decisions based on that status.
 
-## Motivation
+### Motivation
 
 In many simple systems, one process often needs to know whether another process is still running, has already finished, or has failed. A real example could be a monitoring script that must ensure a service is still active, or a small data pipeline that waits for a previous task to finish. For students, this is an entry point to understanding process coordination. Without the ability to check status, a script cannot build an orderly workflow. This hands-on exercise is important because it shows that Bash is not only a tool for executing commands, but also a control tool that can make decisions based on the condition of another process in real time.
 
-## Main Concepts
+### Main Concepts
 
 - Checking whether a process is still alive
 - Using `kill -0`
 - Exit status
 - Simple monitoring loop
 
-## Script
+### Script
 
 Create a file `task2_check_process_status.sh`:
 
@@ -125,7 +125,7 @@ done
 echo "Monitoring script finished."
 ```
 
-## Practice Steps
+### Practice Steps
 
 1. Save it as `task2_check_process_status.sh`.
 2. Make it executable:
@@ -140,41 +140,41 @@ chmod +x task2_check_process_status.sh
 ./task2_check_process_status.sh
 ```
 
-## Script Explanation
+### Script Explanation
 
 - `sleep 10 &` creates a simple worker process.
 - `kill -0 PID` does not kill the process, it only checks whether the process exists and can be accessed.
 - `2>/dev/null` hides the error message if the process no longer exists.
 - The `while true` loop performs polling every 2 seconds.
 
-## What to Observe
+### What to Observe
 
 - The main script continuously monitors the worker
 - When the worker finishes, the loop stops
 - Process status can be used for decision-making between processes
 
-## Expected Outcome
+### Expected Outcome
 
 Students understand that the status of another process can be monitored from Bash. They learn that basic coordination can be done without complex tools, using only PID and simple checks. This is very important before moving to more advanced synchronization.
 
-# Interacting Between Processes Using a Signal File
+## Lab 3: Interacting Between Processes Using a Signal File
 
-## Objective
+### Objective
 
 Students understand how two processes can interact in a simple way by using a file as a communication medium.
 
-## Motivation
+### Motivation
 
 At the early stage of learning about processes, inter-process communication often feels abstract. However, the basic idea can be introduced with a very simple method, such as using a status file or signal file. In real practice, this approach is not the most advanced form of IPC, but it is excellent for learning because it is easy to observe. By seeing that one process creates a file and another process waits for that file to appear, students will understand the basic concept of coordination and communication between processes. This exercise builds intuition that processes do not always run independently; they often need to exchange information so work can proceed in the correct order.
 
-## Main Concepts
+### Main Concepts
 
 - Process interaction
 - File polling
 - Simple synchronization
 - Filesystem-based communication
 
-## Script
+### Script
 
 Create a file `task3_process_interaction.sh`:
 
@@ -228,7 +228,7 @@ rm -f "$SIGNAL_FILE"
 echo "All processes completed."
 ```
 
-## Practice Steps
+### Practice Steps
 
 1. Save the script as `task3_process_interaction.sh`
 2. Make it executable:
@@ -243,41 +243,41 @@ chmod +x task3_process_interaction.sh
 ./task3_process_interaction.sh
 ```
 
-## Script Explanation
+### Script Explanation
 
 - `producer` simulates a process that works for 5 seconds and then creates a signal file.
 - `consumer` continuously checks for the existence of that file.
 - When the file appears, the consumer reads its content.
 - `wait` ensures the main shell waits for both processes to finish.
 
-## What to Observe
+### What to Observe
 
 - Two processes run concurrently
 - One process waits for the result of another
 - A file can be used as a simple communication medium
 
-## Expected Outcome
+### Expected Outcome
 
 Students understand the basic idea of inter-process interaction. They see that even without using pipes, sockets, or shared memory, simple coordination can still be built. This exercise is very suitable for connecting synchronization theory with easy-to-understand implementation.
 
-# Observing the Process Lifecycle (start, running, stop, terminated)
+## Lab 4: Observing the Process Lifecycle (start, running, stop, terminated)
 
-## Objective
+### Objective
 
 Students understand the life stages of a process: created, running, waiting, receiving a signal, and terminating.
 
-## Motivation
+### Motivation
 
 Students often think of a process only as "a program that is running." In reality, a process has a clear lifecycle: it is born when executed, exists in a certain state while running, can be stopped, can receive signals, and eventually terminates. Understanding the lifecycle is important for debugging, service monitoring, and system administration. In the real world, many system problems appear not because a program is completely wrong, but because its lifecycle is not managed properly. Through this hands-on exercise, students will see the relationship between Bash commands, process states, and OS signals more concretely.
 
-## Main Concepts
+### Main Concepts
 
 - Process lifecycle
 - Signal handling
 - `trap` in Bash
 - Controlled process termination
 
-## Script
+### Script
 
 Create a file `task4_process_lifecycle.sh`:
 
@@ -316,7 +316,7 @@ Run this script in one terminal, then send a signal from another terminal:
 kill -TERM <PID>
 ```
 
-## Practice Steps
+### Practice Steps
 
 1. Save it as `task4_process_lifecycle.sh`
 2. Make it executable:
@@ -345,41 +345,41 @@ ps -p <PID> -o pid,ppid,stat,cmd
 kill -TERM <PID>
 ```
 
-## Script Explanation
+### Script Explanation
 
 - `trap cleanup SIGTERM SIGINT` makes the script catch certain signals.
 - `$$` prints the PID of the currently running shell script.
 - The infinite loop simulates an active process.
 - When it receives `SIGTERM` or `SIGINT`, the `cleanup` function is executed before exiting.
 
-## What to Observe
+### What to Observe
 
 - The process keeps running in a loop
 - The process can be observed from another terminal
 - When a signal is sent, the process does not just "die silently," but performs cleanup first
 
-## Expected Outcome
+### Expected Outcome
 
 Students understand that a process has a lifecycle that can be observed and controlled. They also learn the important concept that properly stopping a process often requires cleanup, not simply killing it forcefully.
 
-# Inter-Process Dependency in a Simple Workflow
+## Lab 5: Inter-Process Dependency in a Simple Workflow
 
-## Objective
+### Objective
 
 Students understand that one process may depend on the result of another process, and Bash can be used to manage the order of such dependencies.
 
-## Motivation
+### Motivation
 
 In many real workflows, one task cannot start before the previous task has completed. A simple example is data collection, followed by validation, followed by reporting. If validation is executed before the data is available, the workflow fails. This is the concept of process dependency. For students, this concept is very important because it becomes a bridge toward system automation, job scheduling, and data pipelines. This hands-on exercise shows that even at a simple level, Bash is already powerful enough to build step-by-step workflows with clear dependency control.
 
-## Main Concepts
+### Main Concepts
 
 - Inter-process dependency
 - Waiting for a process with `wait`
 - Checking the result of a previous step
 - Sequential workflow
 
-## Script
+### Script
 
 Create a file `task5_process_dependency.sh`:
 
@@ -469,7 +469,7 @@ else
 fi
 ```
 
-## Practice Steps
+### Practice Steps
 
 1. Save it as `task5_process_dependency.sh`
 2. Make it executable:
@@ -484,7 +484,7 @@ chmod +x task5_process_dependency.sh
 ./task5_process_dependency.sh
 ```
 
-## Script Explanation
+### Script Explanation
 
 - `download_data` simulates a data collection process.
 - This process is run in the background to show that the task can be separated.
@@ -492,12 +492,12 @@ chmod +x task5_process_dependency.sh
 - `validate_data` checks whether the file exists and is not empty.
 - `generate_report` only runs if validation succeeds.
 
-## What to Observe
+### What to Observe
 
 - The second process depends on the result of the first process
 - `wait` is used for dependency synchronization
 - Exit status is used to determine the next step
 
-## Expected Outcome
+### Expected Outcome
 
 Students understand that dependencies between processes are very common and important. They also learn that Bash can be used to build simple, safe, and structured workflows, not just a loose collection of commands.
